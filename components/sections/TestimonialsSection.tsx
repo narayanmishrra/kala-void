@@ -54,7 +54,7 @@ export function TestimonialsSection() {
   return (
     <section
       ref={ref}
-      style={{ backgroundColor: '#000000', paddingTop: 120, paddingBottom: 120 }}
+      style={{ paddingTop: 120, paddingBottom: 120 }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}

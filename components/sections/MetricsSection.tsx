@@ -57,7 +57,7 @@ export function MetricsSection() {
   return (
     <section
       ref={ref}
-      style={{ backgroundColor: '#000000', paddingTop: 96, paddingBottom: 96 }}
+      style={{ paddingTop: 96, paddingBottom: 96 }}
     >
       <motion.div
         className="container-page"

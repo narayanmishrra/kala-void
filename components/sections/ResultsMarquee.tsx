@@ -92,7 +92,7 @@ export function ResultsMarquee() {
     <section
       aria-label="Agency performance metrics"
       style={{
-        backgroundColor: '#000000',
+         
         borderTop: '1px solid rgba(255,255,255,0.08)',
         borderBottom: '1px solid rgba(255,255,255,0.08)',
         paddingTop: 48,

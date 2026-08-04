@@ -33,7 +33,7 @@ export function ServicesOrbit() {
   return (
     <section
       ref={ref}
-      style={{ backgroundColor: '#000000', paddingTop: 120, paddingBottom: 120 }}
+      style={{ paddingTop: 120, paddingBottom: 120 }}
     >
       <motion.div
         className="container-page"

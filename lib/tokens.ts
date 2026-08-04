@@ -200,6 +200,26 @@ export const particleSystem = {
   fitMarginX: 1.8, // brain half-width margin for responsive fit
   fitMarginY: 1.3,
 
+  // ─── 4-STATE SCROLL MORPH MACHINE TOKENS ─────────────────────
+  // Scroll-driven fullscreen environment: brain (0) -> disperse (1) -> bulb (2) -> globe (3)
+  states: 4,
+  scrollSmoothRate: 5.5,
+  morphStagger: 0.28,
+  turbulence: 0.85,
+  sideOffsetFactor: 0.42, // fraction of viewport half-width for left/right positioning
+  shapeUnitMin: 0.62,
+  shapeUnitMax: 1.55,
+  shapeUnitFactor: 0.30,
+  brainScale: 1.0,
+  bulbScale: 0.95,
+  globeScale: 1.05,
+  brainRotSpeed: 0.1,
+  disperseRotSpeed: 0.02,
+  bulbRotSpeed: 0.05,
+  globeRotSpeed: 0.16,
+  webFadeStart: 1.05,
+  webFadeEnd: 2.4,
+
   seed: 1337,
 } as const
 
