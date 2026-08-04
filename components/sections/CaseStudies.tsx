@@ -88,28 +88,19 @@ export function CaseStudies({ featured = false, limit }: CaseStudiesProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-9 mt-16">
           {studies.map((study, i) => (
             <motion.div key={study.client} variants={itemVariant}>
-              {/* Media placeholder */}
+              {/* Media placeholder — floats on the void, no card surface */}
               <div
-                className="relative overflow-hidden w-full group"
-                style={{
-                  aspectRatio: '16/9',
-                  borderRadius: 24,
-                  background: 'linear-gradient(135deg, rgba(128,82,255,0.08) 0%, rgba(21,132,110,0.06) 100%)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                }}
+                className="relative w-full group"
+                style={{ aspectRatio: '16/9' }}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span
-                    className="type-heading-lg"
-                    style={{ color: 'rgba(128,82,255,0.15)', letterSpacing: '-3.12px' }}
+                    className="type-display text-[rgba(128,82,255,0.22)] group-hover:text-[rgba(128,82,255,0.5)] transition-colors duration-300"
+                    style={{ letterSpacing: '-4.52px' }}
                   >
                     {study.client.charAt(0)}
                   </span>
                 </div>
-                <div
-                  className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.02] transition-all duration-300"
-                  style={{ borderRadius: 24 }}
-                />
               </div>
 
               {/* Industry tag */}

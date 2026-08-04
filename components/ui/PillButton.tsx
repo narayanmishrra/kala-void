@@ -29,9 +29,9 @@ export function PillButton({
   const baseStyles = 'inline-flex items-center justify-center gap-1.5 font-[family-name:var(--font-ppneuemontreal)] text-[14px] font-semibold leading-[1.2] tracking-[0.35px] uppercase whitespace-nowrap cursor-pointer no-underline transition-all duration-200'
 
   const variantStyles = {
-    primary: 'bg-[#8052ff] text-white rounded-full border-none hover:bg-[#9370ff] hover:-translate-y-px hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(128,82,255,0.30)] active:scale-[0.98] active:shadow-none focus-visible:outline-2 focus-visible:outline-[#8052ff] focus-visible:outline-offset-2',
+    primary: 'bg-[#8052ff] text-white rounded-[24px] border-none hover:bg-[#9370ff] hover:-translate-y-px hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(128,82,255,0.30)] active:scale-[0.98] active:shadow-none focus-visible:outline-2 focus-visible:outline-[#8052ff] focus-visible:outline-offset-2',
     ghost: 'bg-transparent text-[#9a9a9a] rounded-none border-none px-0 py-0 hover:text-white',
-    outline: 'bg-transparent text-[#8052ff] rounded-full border border-[rgba(128,82,255,0.2)] hover:border-[rgba(128,82,255,0.6)] hover:bg-[rgba(128,82,255,0.1)]',
+    outline: 'bg-transparent text-[#8052ff] rounded-[24px] border border-[rgba(128,82,255,0.2)] hover:border-[rgba(128,82,255,0.6)] hover:bg-[rgba(128,82,255,0.1)]',
   }
 
   const sizeStyles = {

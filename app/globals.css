@@ -82,7 +82,7 @@
   --radius-nav: 24px;
   --radius-tags: 9999px;
   --radius-cards: 24px;
-  --radius-buttons: 9999px;
+  --radius-buttons: 24px;
 
   /* === LAYOUT === */
   --page-max-width: 1280px;
@@ -269,6 +269,31 @@ body {
 }
 
 /* ============================================================
+   SERVICES ORBIT
+   ============================================================ */
+
+@keyframes orbit-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.orbit-spin {
+  animation: orbit-rotate 90s linear infinite;
+  transform-origin: 250px 250px;
+}
+
+.orbit-spin-reverse {
+  animation: orbit-rotate 90s linear infinite reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-spin,
+  .orbit-spin-reverse {
+    animation: none;
+  }
+}
+
+/* ============================================================
    COMPONENT BASE STYLES
    ============================================================ */
 
@@ -278,7 +303,7 @@ body {
   justify-content: center;
   gap: 6px;
   padding: 14.4px 28px;
-  border-radius: 9999px;
+  border-radius: 24px;
   border: none;
   background-color: var(--color-electric-iris);
   color: var(--color-bone-white);

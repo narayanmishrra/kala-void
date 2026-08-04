@@ -92,7 +92,7 @@ export const radius = {
   nav: '24px',
   tags: '9999px',
   cards: '24px',
-  buttons: '9999px',
+  buttons: '24px',
   portrait: '24px',
 } as const
 
@@ -139,8 +139,13 @@ export const zIndex = {
 } as const
 
 // ─── THREE.JS PARTICLE SYSTEM TOKENS ─────────────────────────
+// Constellation of multicolored triangular particles forming an
+// organic brain — knowledge visualized as distributed intelligence.
+// Merged-geometry renderer: 3 draw calls for the whole scene.
 
 export const particleSystem = {
+  // Palette: Electric Iris leads, Saffron Spark + Deep Verdant punctuate,
+  // long tail of accent hues keeps the constellation "multicolored".
   colors: [
     '#8052ff',
     '#9b72ff',
@@ -153,26 +158,49 @@ export const particleSystem = {
     '#7b52ab',
     '#3d85c8',
   ],
-  colorWeights: [0.30, 0.15, 0.10, 0.10, 0.08, 0.08, 0.07, 0.05, 0.04, 0.03],
-  countDesktop: 5000,
-  countTablet: 3000,
-  countMobile: 1500,
-  countAmbient: 800,
-  sizeMin: 1.5,
-  sizeMax: 3.0,
-  strokeWidth: 1,
-  rotationSpeedY: 0.0003,
-  driftAmplitude: 2,
-  driftFrequency: 0.001,
-  parallaxMaxTilt: 15,
-  parallaxLerpFactor: 0.05,
-  entranceDuration: 2500,
-  ambientOpacityMin: 0.15,
-  ambientOpacityMax: 0.35,
-  ambientSpreadFactor: 1.8,
-  targetFPS: 60,
-  minFPS: 30,
-  deltaTimeMax: 1 / 30,
+  colorWeights: [0.26, 0.12, 0.08, 0.12, 0.10, 0.09, 0.08, 0.06, 0.05, 0.04],
+
+  // Density — merged buffers make these cheap (1 draw call each layer).
+  // Airy, not crowded: each triangle reads as an individual mote.
+  countDesktop: 1900,
+  countTablet: 1500,
+  countMobile: 850,
+  countAmbientDesktop: 240,
+  countAmbientMobile: 110,
+
+  // Organic brain volume (unit-space brain × scale).
+  scaleDesktop: 1.38,
+  scaleMobile: 1.2,
+  scatterFactor: 3.4, // entrance scatter sphere radius (× scale)
+
+  // Neural connection web between near particles — kept dim so the
+  // triangles remain the hero of the scene.
+  connectionDistanceFactor: 0.22, // × scale
+  connectionMaxPerParticle: 2,
+  connectionMaxTotal: 1500,
+  connectionBrightnessMin: 0.08,
+  connectionBrightnessMax: 0.18,
+
+  // Motion (time-based, frame-rate independent).
+  rotationSpeedY: 0.1, // rad/s
+  breatheAmplitude: 0.012,
+  breatheFrequency: 0.55, // rad/s
+  driftAmplitude: 0.055,
+  parallaxMaxTilt: 9, // degrees, both axes
+  parallaxRate: 3.2, // 1/s exponential smoothing
+  entranceDuration: 2300, // ms
+  twinkleFrequency: 1.3, // rad/s
+
+  // Pointer repulsion — the constellation yields around the cursor.
+  repelRadius: 1.15,
+  repelStrength: 0.6,
+  repelRate: 9, // 1/s exponential smoothing
+
+  cameraFov: 50,
+  fitMarginX: 1.8, // brain half-width margin for responsive fit
+  fitMarginY: 1.3,
+
+  seed: 1337,
 } as const
 
 // ─── SERVICE DATA ────────────────────────────────────────────
