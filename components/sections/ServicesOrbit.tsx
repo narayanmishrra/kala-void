@@ -124,67 +124,12 @@ export function ServicesOrbit() {
               className="w-full h-auto"
               aria-hidden="true"
             >
-              {/* Connecting lines */}
-              {services.map((service, i) => {
-                const angle = (i / services.length) * Math.PI * 2 - Math.PI / 2
-                const x = centerX + Math.cos(angle) * orbitRadius
-                const y = centerY + Math.sin(angle) * orbitRadius
-                return (
-                  <line
-                    key={`line-${service.id}`}
-                    x1={centerX}
-                    y1={centerY}
-                    x2={x}
-                    y2={y}
-                    stroke="rgba(128,82,255,0.15)"
-                    strokeWidth={1}
-                  />
-                )
-              })}
-
-              {/* Center logo */}
+              {/* Center logo (static while the ring orbits) */}
               <circle cx={centerX} cy={centerY} r={30} fill="#8052ff" opacity={0.1} />
               <circle cx={centerX} cy={centerY} r={30} stroke="rgba(128,82,255,0.3)" strokeWidth={1} fill="none" />
               {/* Void mark in center */}
               <polygon points={`${centerX-8},${centerY+12} ${centerX},${centerY-10} ${centerX+8},${centerY+12} ${centerX+5},${centerY+4} ${centerX-5},${centerY+4}`} fill="#8052ff" />
               <polygon points={`${centerX-4},${centerY+8} ${centerX+4},${centerY+8} ${centerX},${centerY+1}`} fill="#15846e" />
-
-              {/* Orbit nodes */}
-              {services.map((service, i) => {
-                const angle = (i / services.length) * Math.PI * 2 - Math.PI / 2
-                const x = centerX + Math.cos(angle) * orbitRadius
-                const y = centerY + Math.sin(angle) * orbitRadius
-                const isHovered = hoveredService === service.id
-
-                return (
-                  <g key={service.id}>
-                    <rect
-                      x={x - 55}
-                      y={y - 14}
-                      width={110}
-                      height={28}
-                      rx={14}
-                      fill={isHovered ? 'rgba(128,82,255,0.15)' : 'rgba(128,82,255,0.08)'}
-                      stroke={isHovered ? 'rgba(128,82,255,0.6)' : 'rgba(128,82,255,0.2)'}
-                      strokeWidth={1}
-                      style={{ transition: 'all 200ms ease' }}
-                    />
-                    <text
-                      x={x}
-                      y={y + 4}
-                      textAnchor="middle"
-                      fill="#ffffff"
-                      fontSize={11}
-                      fontFamily="var(--font-ppneuemontreal)"
-                      fontWeight={600}
-                      letterSpacing="0.35px"
-                      style={{ textTransform: 'uppercase' as const, transition: 'all 200ms ease' }}
-                    >
-                      {service.shortName}
-                    </text>
-                  </g>
-                )
-              })}
 
               {/* Glow ring animation */}
               <circle
@@ -198,6 +143,72 @@ export function ServicesOrbit() {
                 <animate attributeName="r" values="30;38;30" dur="3s" repeatCount="indefinite" />
                 <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite" />
               </circle>
+
+              {/* Orbiting ring — nodes + connectors rotate as one system */}
+              <g className="orbit-spin">
+                {/* Connecting lines */}
+                {services.map((service, i) => {
+                  const angle = (i / services.length) * Math.PI * 2 - Math.PI / 2
+                  const x = centerX + Math.cos(angle) * orbitRadius
+                  const y = centerY + Math.sin(angle) * orbitRadius
+                  const isHovered = hoveredService === service.id
+                  return (
+                    <line
+                      key={`line-${service.id}`}
+                      x1={centerX}
+                      y1={centerY}
+                      x2={x}
+                      y2={y}
+                      stroke={isHovered ? 'rgba(128,82,255,0.5)' : 'rgba(128,82,255,0.15)'}
+                      strokeWidth={1}
+                      style={{ transition: 'stroke 200ms ease' }}
+                    />
+                  )
+                })}
+
+                {/* Orbit nodes — counter-rotated so labels stay level */}
+                {services.map((service, i) => {
+                  const angle = (i / services.length) * Math.PI * 2 - Math.PI / 2
+                  const x = centerX + Math.cos(angle) * orbitRadius
+                  const y = centerY + Math.sin(angle) * orbitRadius
+                  const isHovered = hoveredService === service.id
+
+                  return (
+                    <g
+                      key={service.id}
+                      className="orbit-spin-reverse cursor-pointer"
+                      style={{ transformOrigin: `${x}px ${y}px` }}
+                      onMouseEnter={() => setHoveredService(service.id)}
+                      onMouseLeave={() => setHoveredService(null)}
+                    >
+                      <rect
+                        x={x - 55}
+                        y={y - 14}
+                        width={110}
+                        height={28}
+                        rx={14}
+                        fill={isHovered ? 'rgba(128,82,255,0.15)' : 'rgba(128,82,255,0.08)'}
+                        stroke={isHovered ? 'rgba(128,82,255,0.6)' : 'rgba(128,82,255,0.2)'}
+                        strokeWidth={1}
+                        style={{ transition: 'all 200ms ease' }}
+                      />
+                      <text
+                        x={x}
+                        y={y + 4}
+                        textAnchor="middle"
+                        fill="#ffffff"
+                        fontSize={11}
+                        fontFamily="var(--font-ppneuemontreal)"
+                        fontWeight={600}
+                        letterSpacing="0.35px"
+                        style={{ textTransform: 'uppercase' as const, transition: 'all 200ms ease' }}
+                      >
+                        {service.shortName}
+                      </text>
+                    </g>
+                  )
+                })}
+              </g>
             </svg>
           </motion.div>
         </div>

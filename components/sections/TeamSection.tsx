@@ -84,20 +84,15 @@ export function TeamSection({ preview = false, limit }: TeamSectionProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9 mt-16">
           {members.map((member) => (
             <motion.div key={member.name} variants={itemVariant}>
-              {/* Portrait placeholder */}
+              {/* Portrait placeholder — floats on the void, no card surface */}
               <div
-                className="w-full overflow-hidden group"
-                style={{
-                  aspectRatio: '3/4',
-                  borderRadius: 24,
-                  background: 'linear-gradient(180deg, rgba(128,82,255,0.06) 0%, rgba(0,0,0,0) 60%)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                }}
+                className="w-full group"
+                style={{ aspectRatio: '3/4' }}
               >
                 <div className="w-full h-full flex items-center justify-center">
                   <span
-                    className="type-heading-lg"
-                    style={{ color: 'rgba(255,255,255,0.06)', letterSpacing: '-3.12px' }}
+                    className="type-heading-lg text-[rgba(128,82,255,0.18)] group-hover:text-[rgba(128,82,255,0.4)] transition-colors duration-300"
+                    style={{ letterSpacing: '-3.12px' }}
                   >
                     {member.name.split(' ').map(n => n[0]).join('')}
                   </span>
