@@ -162,9 +162,9 @@ export const particleSystem = {
 
   // Density — merged buffers make these cheap (1 draw call each layer).
   // Airy, not crowded: each triangle reads as an individual mote.
-  countDesktop: 1900,
-  countTablet: 1500,
-  countMobile: 850,
+  countDesktop: 1700,
+  countTablet: 1300,
+  countMobile: 800,
   countAmbientDesktop: 240,
   countAmbientMobile: 110,
 
@@ -201,15 +201,23 @@ export const particleSystem = {
   fitMarginY: 1.3,
 
   // ─── 4-STATE SCROLL MORPH MACHINE TOKENS ─────────────────────
-  // Scroll-driven fullscreen environment: brain (0) -> disperse (1) -> bulb (2) -> globe (3)
+  // Scroll-driven fullscreen environment: brain (0, right) -> disperse
+  // (1, full-screen) -> bulb (2, left) -> globe (3, right). The entire
+  // journey completes after `scrollSpanViewports` viewport-heights of
+  // scrolling; the globe then stays as ambient background for the rest
+  // of the homepage (dala.craftedbygc.com-style choreography).
   states: 4,
+  scrollSpanViewports: 4, // viewport-heights of scroll for the full journey
   scrollSmoothRate: 5.5,
   morphStagger: 0.28,
   turbulence: 0.85,
-  sideOffsetFactor: 0.42, // fraction of viewport half-width for left/right positioning
-  shapeUnitMin: 0.62,
-  shapeUnitMax: 1.55,
-  shapeUnitFactor: 0.30,
+  sideOffsetFactor: 0.46, // fraction of viewport half-width for left/right positioning
+  // Shapes never overflow the viewport: side offsets are clamped so a
+  // shape of half-width (shapeUnit × sideFitScale) stays fully visible.
+  sideFitScale: 1.75,
+  shapeUnitMin: 0.52,
+  shapeUnitMax: 1.3,
+  shapeUnitFactor: 0.22,
   brainScale: 1.0,
   bulbScale: 0.95,
   globeScale: 1.05,

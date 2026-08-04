@@ -100,6 +100,39 @@ export default function ParticleField() {
     const container = mountRef.current
     if (!container) return
 
+    // If anything below throws (no WebGL, context creation failure…),
+    // the homepage must keep working — just without the particle field.
+    let cleanup: (() => void) | undefined
+
+    try {
+      cleanup = initField(container)
+    } catch {
+      // Graceful degradation: clear any partially-appended canvas.
+      while (container.firstChild) container.removeChild(container.firstChild)
+      return () => {}
+    }
+
+    return () => {
+      cleanup?.()
+    }
+  }, [])
+
+  return (
+    <div
+      ref={mountRef}
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: -1,
+        pointerEvents: 'none',
+      }}
+    />
+  )
+}
+
+/** Builds the three.js scene and returns its teardown. Throws if WebGL is unavailable. */
+function initField(container: HTMLDivElement): () => void {
     const reducedMotion =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -240,7 +273,12 @@ export default function ParticleField() {
         Math.min(ps.shapeUnitMax, halfW * ps.shapeUnitFactor),
       )
 
-      const sideOffset = halfW * ps.sideOffsetFactor
+      // Side placement: shapes sit left/right of center, but are clamped
+      // so they never overflow the viewport on narrow windows.
+      const sideOffset = Math.min(
+        halfW * ps.sideOffsetFactor,
+        Math.max(0, halfW - shapeUnit * ps.sideFitScale),
+      )
       offsetsX[0] = sideOffset // Brain right
       offsetsX[1] = 0 // Disperse center
       offsetsX[2] = -sideOffset // Bulb left
@@ -252,13 +290,14 @@ export default function ParticleField() {
     }
     updateSize()
 
-    // Scroll state tracking
+    // Scroll state tracking — the full brain → disperse → bulb → globe
+    // journey spans `scrollSpanViewports` viewport-heights of scrolling;
+    // beyond that the globe persists as the ambient page background.
     let phase = 0
     let targetPhase = 0
     const getScrollTarget = () => {
-      const doc = document.documentElement
-      const maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight)
-      const t = Math.max(0, Math.min(1, window.scrollY / maxScroll))
+      const span = Math.max(1, window.innerHeight * ps.scrollSpanViewports)
+      const t = Math.max(0, Math.min(1, window.scrollY / span))
       return t * (ps.states - 1)
     }
     phase = targetPhase = getScrollTarget()
@@ -602,17 +641,4 @@ export default function ParticleField() {
         container.removeChild(renderer.domElement)
       }
     }
-  }, [])
-
-  return (
-    <div
-      ref={mountRef}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: -1,
-        pointerEvents: 'none',
-      }}
-    />
-  )
 }
