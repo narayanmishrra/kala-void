@@ -1,0 +1,443 @@
+/* ============================================================
+   BLCK VOID — globals.css
+   Design System Foundation
+   ============================================================ */
+
+@import "tailwindcss";
+
+@theme {
+  /* === COLORS === */
+  --color-void: #000000;
+  --color-bone-white: #ffffff;
+  --color-ash-gray: #9a9a9a;
+  --color-silver-mist: #bdbdbd;
+  --color-electric-iris: #8052ff;
+  --color-saffron-spark: #ffb829;
+  --color-deep-verdant: #15846e;
+  --color-electric-iris-10: rgba(128, 82, 255, 0.10);
+  --color-electric-iris-15: rgba(128, 82, 255, 0.15);
+  --color-electric-iris-20: rgba(128, 82, 255, 0.20);
+  --color-electric-iris-30: rgba(128, 82, 255, 0.30);
+  --color-electric-iris-60: rgba(128, 82, 255, 0.60);
+  --color-saffron-spark-10: rgba(255, 184, 41, 0.10);
+  --color-white-05: rgba(255, 255, 255, 0.05);
+  --color-white-08: rgba(255, 255, 255, 0.08);
+  --color-white-15: rgba(255, 255, 255, 0.15);
+  --color-white-20: rgba(255, 255, 255, 0.20);
+  --color-white-30: rgba(255, 255, 255, 0.30);
+  --color-white-80: rgba(255, 255, 255, 0.80);
+  --color-error: #ff6b6b;
+
+  /* === TYPOGRAPHY === */
+  --font-ppneuemontreal: 'PPNeueMontreal', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --text-caption: 12px;
+  --text-nav-label: 14px;
+  --text-body: 18px;
+  --text-heading-2xs: 24px;
+  --text-heading-xs: 27px;
+  --text-subheading: 36px;
+  --text-heading-sm: 42px;
+  --text-heading: 48px;
+  --text-heading-lg: 78px;
+  --text-display: 113px;
+
+  --leading-caption: 1.5;
+  --leading-nav-label: 1.2;
+  --leading-body: 1.5;
+  --leading-heading-2xs: 1.25;
+  --leading-heading-xs: 1;
+  --leading-subheading: 1.2;
+  --leading-heading-sm: 1.2;
+  --leading-heading: 1.1;
+  --leading-heading-lg: 1.1;
+  --leading-display: 1.1;
+
+  --tracking-nav-label: 0.35px;
+  --tracking-heading-2xs: -0.48px;
+  --tracking-heading-sm: -1.68px;
+  --tracking-heading: -1.68px;
+  --tracking-heading-lg: -3.12px;
+  --tracking-display: -4.52px;
+
+  --font-weight-extralight: 200;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* === SPACING === */
+  --spacing-6: 6px;
+  --spacing-12: 12px;
+  --spacing-18: 18px;
+  --spacing-24: 24px;
+  --spacing-30: 30px;
+  --spacing-36: 36px;
+  --spacing-60: 60px;
+  --spacing-96: 96px;
+  --spacing-120: 120px;
+
+  /* === BORDER RADIUS === */
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+  --radius-nav: 24px;
+  --radius-tags: 9999px;
+  --radius-cards: 24px;
+  --radius-buttons: 9999px;
+
+  /* === LAYOUT === */
+  --page-max-width: 1280px;
+  --nav-height: 72px;
+}
+
+/* Base reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--color-void);
+  color: var(--color-bone-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #000000;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITY CLASSES
+   ============================================================ */
+
+.type-display {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-display);
+  font-feature-settings: "ss01" on;
+}
+
+.type-heading-lg {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-heading-lg);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-heading-lg);
+  font-feature-settings: "ss01" on;
+}
+
+.type-heading {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-heading);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-heading);
+  font-feature-settings: "ss01" on;
+}
+
+.type-heading-sm {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-heading-sm);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-heading-sm);
+  font-feature-settings: "ss01" on;
+}
+
+.type-subheading {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-subheading);
+  font-weight: 400;
+  line-height: 1.2;
+  font-feature-settings: "ss01" on;
+}
+
+.type-heading-xs {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-heading-xs);
+  font-weight: 400;
+  line-height: 1.0;
+  font-feature-settings: "ss01" on;
+}
+
+.type-body {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-body);
+  font-weight: 200;
+  line-height: 1.5;
+  font-feature-settings: "ss01" on;
+}
+
+.type-nav {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-nav-label);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-nav-label);
+  text-transform: uppercase;
+  font-feature-settings: "ss01" on;
+}
+
+.type-label {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-nav-label);
+  text-transform: uppercase;
+}
+
+.type-eyebrow {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-nav-label);
+  text-transform: uppercase;
+  color: var(--color-saffron-spark);
+}
+
+.type-caption {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-caption);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   LAYOUT UTILITIES
+   ============================================================ */
+
+.container-page {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-36);
+  padding-right: var(--spacing-36);
+}
+
+@media (max-width: 768px) {
+  .container-page {
+    padding-left: var(--spacing-24);
+    padding-right: var(--spacing-24);
+  }
+}
+
+@media (max-width: 480px) {
+  .container-page {
+    padding-left: var(--spacing-18);
+    padding-right: var(--spacing-18);
+  }
+}
+
+/* ============================================================
+   MARQUEE ANIMATION
+   ============================================================ */
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-track--left {
+  animation: marquee-left 40s linear infinite;
+}
+
+.marquee-track--right {
+  animation: marquee-right 45s linear infinite;
+}
+
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+/* ============================================================
+   COMPONENT BASE STYLES
+   ============================================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14.4px 28px;
+  border-radius: 9999px;
+  border: none;
+  background-color: var(--color-electric-iris);
+  color: var(--color-bone-white);
+  font-family: var(--font-ppneuemontreal);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 200ms ease-out, transform 150ms ease-out, box-shadow 200ms ease-out;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #9370ff;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 0 40px rgba(128, 82, 255, 0.30);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: none;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--color-electric-iris);
+  outline-offset: 3px;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-ash-gray);
+  font-family: var(--font-ppneuemontreal);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 200ms ease-out;
+  text-decoration: none;
+}
+
+.btn-ghost:hover {
+  color: var(--color-bone-white);
+}
+
+.tag-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(128, 82, 255, 0.2);
+  background-color: rgba(128, 82, 255, 0.1);
+  font-family: var(--font-ppneuemontreal);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: var(--color-electric-iris);
+  transition: border-color 200ms ease-out, background-color 200ms ease-out;
+}
+
+.divider-void {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: none;
+  margin: 0;
+}
+
+.metric-number {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-heading-lg);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-heading-lg);
+  color: var(--color-saffron-spark);
+}
+
+.metric-label {
+  font-family: var(--font-ppneuemontreal);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: var(--color-ash-gray);
+  margin-top: 6px;
+}
+
+/* ============================================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================================ */
+
+@media (max-width: 1280px) {
+  .type-display { font-size: 91px; letter-spacing: -3.64px; }
+  .type-heading-lg { font-size: 64px; letter-spacing: -2.56px; }
+}
+
+@media (max-width: 1024px) {
+  .type-display { font-size: 72px; letter-spacing: -2.88px; }
+  .type-heading-lg { font-size: 54px; letter-spacing: -2.16px; }
+  .type-heading { font-size: 42px; letter-spacing: -1.68px; }
+}
+
+@media (max-width: 768px) {
+  .type-display { font-size: 56px; letter-spacing: -2.24px; }
+  .type-heading-lg { font-size: 42px; letter-spacing: -1.68px; }
+  .type-heading { font-size: 36px; letter-spacing: -1.44px; }
+  .type-heading-sm { font-size: 32px; letter-spacing: -1.28px; }
+  .type-subheading { font-size: 28px; }
+  .metric-number { font-size: 54px; letter-spacing: -2.16px; }
+}
+
+@media (max-width: 480px) {
+  .type-display { font-size: 42px; letter-spacing: -1.68px; }
+  .type-heading-lg { font-size: 36px; letter-spacing: -1.44px; }
+  .type-heading { font-size: 30px; letter-spacing: -1.2px; }
+  .type-heading-sm { font-size: 26px; letter-spacing: -1.04px; }
+  .metric-number { font-size: 42px; letter-spacing: -1.68px; }
+}
+
+/* ============================================================
+   ACCESSIBILITY UTILITIES
+   ============================================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+}
