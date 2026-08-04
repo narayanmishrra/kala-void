@@ -6,17 +6,11 @@
 
 import { useRef } from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/SectionLabel'
 import { PillButton } from '@/components/ui/PillButton'
 import { ease } from '@/lib/animations'
-
-const ParticleVoid = dynamic(
-  () => import('@/components/canvas/ParticleVoid'),
-  { ssr: false }
-)
 
 const lineVariant = {
   hidden: { opacity: 0, y: 40 },
@@ -47,7 +41,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      style={{ backgroundColor: '#000000', minHeight: '100svh', overflow: 'hidden' }}
+      style={{ minHeight: '100svh' }}
       className="relative"
     >
       <div className="container-page relative z-10">
@@ -171,35 +165,9 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right: Particle Void */}
-          <div
-            className="hidden lg:block relative"
-            style={{ height: '100svh', marginTop: -72 }}
-          >
-            {/* Gradient placeholder */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background: 'radial-gradient(ellipse at center, rgba(128, 82, 255, 0.08) 0%, transparent 70%)',
-              }}
-            />
-            <ParticleVoid className="absolute inset-0" />
-          </div>
+          {/* Right: Reserved space for 3D Brain */}
+          <div className="hidden lg:block relative" style={{ height: '100svh', marginTop: -72 }} />
         </div>
-      </div>
-
-      {/* Mobile: Particle below text */}
-      <div
-        className="lg:hidden relative w-full"
-        style={{ height: '45svh', marginTop: -40 }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse at center, rgba(128, 82, 255, 0.08) 0%, transparent 70%)',
-          }}
-        />
-        <ParticleVoid className="absolute inset-0" />
       </div>
     </section>
   )

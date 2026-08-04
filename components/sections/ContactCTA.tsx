@@ -95,7 +95,7 @@ export function ContactCTA() {
   return (
     <section
       ref={ref}
-      style={{ backgroundColor: '#000000', paddingTop: 120, paddingBottom: 120, position: 'relative' }}
+      style={{ paddingTop: 120, paddingBottom: 120, position: 'relative' }}
     >
       {/* Ambient background glow */}
       <div

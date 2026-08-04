@@ -423,3 +423,247 @@ export function createAmbient(
 
   return { count, positions, seeds, sizes, spinRates, basisU, basisV, colors: colorsBuf }
 }
+
+// ─── SHAPE SAMPLERS & FIELD FACTORY ──────────────────────────
+
+export function sampleBrain(count: number, rng: Rng): Float32Array {
+  const out = new Float32Array(count * 3)
+  let i = 0
+  let attempts = 0
+  while (i < count && attempts < count * 40) {
+    attempts++
+    const x = (rng() * 2 - 1) * 1.62
+    const y = (rng() * 2 - 1) * 1.08
+    const z = (rng() * 2 - 1) * 1.2
+    if (!isAccepted(x, y, z, 0.78, rng)) continue
+    out[i * 3 + 0] = x / 1.55
+    out[i * 3 + 1] = y / 1.55
+    out[i * 3 + 2] = z / 1.55
+    i++
+  }
+  return out
+}
+
+export function sampleDisperse(count: number, rng: Rng): Float32Array {
+  const out = new Float32Array(count * 3)
+  const numClusters = 6
+  const clusters: [number, number][] = []
+  for (let c = 0; c < numClusters; c++) {
+    clusters.push([(rng() * 2 - 1) * 0.7, (rng() * 2 - 1) * 0.6])
+  }
+  for (let i = 0; i < count; i++) {
+    let x: number, y: number
+    if (rng() < 0.18) {
+      const cl = clusters[Math.floor(rng() * numClusters)]
+      x = cl[0] + (rng() + rng() + rng() - 1.5) * 0.25
+      y = cl[1] + (rng() + rng() + rng() - 1.5) * 0.25
+    } else {
+      x = (rng() * 2 - 1) * 0.98
+      y = (rng() * 2 - 1) * 0.98
+    }
+    const z = (rng() * 2 - 1) * 0.12
+    out[i * 3 + 0] = Math.max(-1, Math.min(1, x))
+    out[i * 3 + 1] = Math.max(-1, Math.min(1, y))
+    out[i * 3 + 2] = z
+  }
+  return out
+}
+
+export function sampleBulb(count: number, rng: Rng): Float32Array {
+  const out = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
+    const roll = rng()
+    let x = 0, y = 0, z = 0
+    if (roll < 0.76) {
+      let accepted = false
+      let att = 0
+      while (!accepted && att < 30) {
+        att++
+        x = (rng() * 2 - 1) * 0.78
+        y = 0.30 + (rng() * 2 - 1) * 0.78
+        z = (rng() * 2 - 1) * 0.78
+        const r2 = (x * x + (y - 0.30) * (y - 0.30) + z * z) / (0.78 * 0.78)
+        if (r2 <= 1 && (rng() >= 0.75 || r2 > 0.45)) accepted = true
+      }
+    } else if (roll < 0.94) {
+      y = -0.85 + rng() * 0.50
+      const rMax = y > -0.55 ? 0.30 : 0.26 * (0.9 + 0.15 * Math.sin(y * 40))
+      const theta = rng() * Math.PI * 2
+      const r = rng() < 0.70 ? rMax * (0.92 + 0.08 * rng()) : rMax * Math.sqrt(rng())
+      x = Math.cos(theta) * r
+      z = Math.sin(theta) * r
+    } else {
+      y = -0.90 + rng() * 0.05
+      const theta = rng() * Math.PI * 2
+      const r = 0.12 * Math.sqrt(rng())
+      x = Math.cos(theta) * r
+      z = Math.sin(theta) * r
+    }
+    out[i * 3 + 0] = x
+    out[i * 3 + 1] = y
+    out[i * 3 + 2] = z
+  }
+  return out
+}
+
+export function sampleGlobe(count: number, rng: Rng): Float32Array {
+  const out = new Float32Array(count * 3)
+  const shellCount = Math.floor(count * 0.85)
+  for (let i = 0; i < count; i++) {
+    if (i < shellCount) {
+      const y = 1 - (i / Math.max(1, shellCount - 1)) * 2
+      const r = Math.sqrt(Math.max(0, 1 - y * y))
+      const theta = i * 2.399963229728653
+      out[i * 3 + 0] = Math.cos(theta) * r + (rng() - 0.5) * 0.04
+      out[i * 3 + 1] = y + (rng() - 0.5) * 0.04
+      out[i * 3 + 2] = Math.sin(theta) * r + (rng() - 0.5) * 0.04
+    } else {
+      const r = Math.cbrt(rng()) * 0.92
+      const theta = rng() * Math.PI * 2
+      const phi = Math.acos(rng() * 2 - 1)
+      out[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta)
+      out[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta)
+      out[i * 3 + 2] = r * Math.cos(phi)
+    }
+  }
+  return out
+}
+
+export interface FieldOptions {
+  count: number
+  colors: readonly string[]
+  colorWeights: readonly number[]
+  connectionMaxDist: number
+  connectionMaxPerParticle: number
+  connectionMaxTotal: number
+  scatterFactor: number
+  seed: number
+}
+
+export interface FieldData {
+  count: number
+  shapes: Float32Array[]
+  shapePairs: Uint32Array[]
+  scatter: Float32Array
+  seeds: Float32Array
+  delays: Float32Array
+  sizes: Float32Array
+  spinRates: Float32Array
+  basisU: Float32Array
+  basisV: Float32Array
+  colors: Float32Array
+  twinkle: Float32Array
+  stagger: Float32Array
+  turbDir: Float32Array
+}
+
+export function createField(opts: FieldOptions): FieldData {
+  const {
+    count,
+    colors,
+    colorWeights,
+    connectionMaxDist,
+    connectionMaxPerParticle,
+    connectionMaxTotal,
+    scatterFactor,
+    seed,
+  } = opts
+
+  const rng = mulberry32(seed)
+  const brain = sampleBrain(count, mulberry32(seed + 11))
+  const disperse = sampleDisperse(count, mulberry32(seed + 23))
+  const bulb = sampleBulb(count, mulberry32(seed + 37))
+  const globe = sampleGlobe(count, mulberry32(seed + 41))
+  const shapes = [brain, disperse, bulb, globe]
+
+  const shapePairs: Uint32Array[] = []
+  for (let s = 0; s < 4; s++) {
+    const { pairs } = buildConnections(
+      shapes[s],
+      count,
+      connectionMaxDist,
+      connectionMaxPerParticle,
+      connectionMaxTotal,
+    )
+    shapePairs.push(pairs)
+  }
+
+  const scatter = new Float32Array(count * 3)
+  const seeds = new Float32Array(count)
+  const delays = new Float32Array(count)
+  const sizes = new Float32Array(count)
+  const spinRates = new Float32Array(count)
+  const basisU = new Float32Array(count * 3)
+  const basisV = new Float32Array(count * 3)
+  const colorsBuf = new Float32Array(count * 3)
+  const twinkle = new Float32Array(count)
+  const stagger = new Float32Array(count)
+  const turbDir = new Float32Array(count * 3)
+
+  for (let i = 0; i < count; i++) {
+    const sTheta = rng() * Math.PI * 2
+    const sPhi = Math.acos(rng() * 2 - 1)
+    const sR = scatterFactor * (0.75 + rng() * 0.55)
+    scatter[i * 3 + 0] = sR * Math.sin(sPhi) * Math.cos(sTheta)
+    scatter[i * 3 + 1] = sR * Math.sin(sPhi) * Math.sin(sTheta)
+    scatter[i * 3 + 2] = sR * Math.cos(sPhi)
+
+    const tTheta = rng() * Math.PI * 2
+    const tPhi = Math.acos(rng() * 2 - 1)
+    turbDir[i * 3 + 0] = Math.sin(tPhi) * Math.cos(tTheta)
+    turbDir[i * 3 + 1] = Math.sin(tPhi) * Math.sin(tTheta)
+    turbDir[i * 3 + 2] = Math.cos(tPhi)
+
+    stagger[i] = rng()
+    seeds[i] = rng() * Math.PI * 2
+    delays[i] = rng() * rng() * 0.45
+    sizes[i] = 0.024 + rng() * rng() * 0.036
+    const dir = rng() > 0.5 ? 1 : -1
+    spinRates[i] = dir * (0.12 + rng() * 0.5)
+    twinkle[i] = rng() * Math.PI * 2
+
+    const nTheta = rng() * Math.PI * 2
+    const nPhi = Math.acos(rng() * 2 - 1)
+    const nx = Math.sin(nPhi) * Math.cos(nTheta)
+    const ny = Math.sin(nPhi) * Math.sin(nTheta)
+    const nz = Math.cos(nPhi)
+    const txA = Math.abs(ny) < 0.93 ? 0 : 1
+    const tyA = Math.abs(ny) < 0.93 ? 1 : 0
+    let ux = -nz * tyA
+    let uy = nz * txA
+    let uz = nx * tyA - ny * txA
+    const ul = Math.hypot(ux, uy, uz) || 1
+    ux /= ul
+    uy /= ul
+    uz /= ul
+    basisU[i * 3 + 0] = ux
+    basisU[i * 3 + 1] = uy
+    basisU[i * 3 + 2] = uz
+    basisV[i * 3 + 0] = ny * uz - nz * uy
+    basisV[i * 3 + 1] = nz * ux - nx * uz
+    basisV[i * 3 + 2] = nx * uy - ny * ux
+
+    const [cr, cg, cb] = srgbHexToLinear(colors[pickWeightedIndex(rng, colorWeights)])
+    colorsBuf[i * 3 + 0] = cr
+    colorsBuf[i * 3 + 1] = cg
+    colorsBuf[i * 3 + 2] = cb
+  }
+
+  return {
+    count,
+    shapes,
+    shapePairs,
+    scatter,
+    seeds,
+    delays,
+    sizes,
+    spinRates,
+    basisU,
+    basisV,
+    colors: colorsBuf,
+    twinkle,
+    stagger,
+    turbDir,
+  }
+}
+

@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { Hero } from '@/components/sections/Hero'
 import { ResultsMarquee } from '@/components/sections/ResultsMarquee'
+import ParticleField from '@/components/canvas/ParticleField'
 
 export const metadata: Metadata = {
   title: "BLCK VOID — We Don't Fill Space. We Command It.",
@@ -59,12 +60,13 @@ const ContactCTA = dynamic(
 )
 
 function SectionSkeleton({ height }: { height: string }) {
-  return <div aria-hidden="true" style={{ width: '100%', height, backgroundColor: '#000000' }} />
+  return <div aria-hidden="true" style={{ width: '100%', height, backgroundColor: 'transparent' }} />
 }
 
 export default function HomePage() {
   return (
     <>
+      <ParticleField />
       <Hero />
       <ResultsMarquee />
       <Suspense fallback={<SectionSkeleton height="800px" />}>
