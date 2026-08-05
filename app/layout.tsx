@@ -1,5 +1,5 @@
 /* ============================================================
-   BLCK VOID — app/layout.tsx
+   DALA — app/layout.tsx
    Root layout: font injection, metadata, security.
    ============================================================ */
 
@@ -47,48 +47,46 @@ const ppNeueMontreal = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://blckvoid.com'
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dala.ai'
   ),
   title: {
-    default: 'BLCK VOID — Performance Marketing Agency',
-    template: '%s | BLCK VOID',
+    default: 'Dala — Your workplace has the answer',
+    template: '%s | Dala',
   },
   description:
-    'BLCK VOID is a full-service performance marketing agency. ' +
-    'Meta & Google Ads, Lead Generation, Web Development, ' +
-    '3D Animation, UI/UX Design, VFX, WhatsApp Marketing.',
+    'Stop managing knowledge. Start using it. Plug into your team\'s shared brainpower. Ask Dala to instantly find anything or anyone from any workplace system.',
   keywords: [
-    'performance marketing agency',
-    'meta ads agency',
-    'google ads management',
-    'lead generation agency',
-    'web development agency',
-    '3d animation studio',
-    'ui ux design agency',
-    'BLCK VOID',
+    'AI search',
+    'knowledge management',
+    'workplace intelligence',
+    'team collaboration',
+    'enterprise search',
+    'Dala',
+    'collective wisdom',
   ],
-  authors: [{ name: 'BLCK VOID', url: 'https://blckvoid.com' }],
-  creator: 'BLCK VOID',
+  authors: [{ name: 'Dala', url: 'https://dala.ai' }],
+  creator: 'Dala',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: process.env.NEXT_PUBLIC_SITE_URL,
-    siteName: 'BLCK VOID',
-    title: 'BLCK VOID — Performance Marketing Agency',
-    description: "We don't fill space. We command it.",
+    siteName: 'Dala',
+    title: 'Dala — Your workplace has the answer',
+    description:
+      'Stop managing knowledge. Start using it. Plug into your team\'s shared brainpower.',
     images: [
       {
         url: '/og/default.png',
         width: 1200,
         height: 630,
-        alt: 'BLCK VOID — Performance Marketing Agency',
+        alt: 'Dala — Your workplace has the answer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@blckvoid',
-    creator: '@blckvoid',
+    site: '@askdala',
+    creator: '@askdala',
   },
   robots: {
     index: true,
@@ -113,22 +111,22 @@ const structuredData = {
   '@graph': [
     {
       '@type': 'Organization',
-      '@id': 'https://blckvoid.com/#organization',
-      name: 'BLCK VOID',
-      url: 'https://blckvoid.com',
-      description: 'Full-service performance marketing agency.',
+      '@id': 'https://dala.ai/#organization',
+      name: 'Dala',
+      url: 'https://dala.ai',
+      description:
+        'AI-powered workplace knowledge search. Stop managing knowledge. Start using it.',
       sameAs: [
-        'https://twitter.com/blckvoid',
-        'https://linkedin.com/company/blckvoid',
-        'https://instagram.com/blckvoid',
+        'https://twitter.com/askdala',
+        'https://linkedin.com/company/dala-ai',
       ],
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://blckvoid.com/#website',
-      url: 'https://blckvoid.com',
-      name: 'BLCK VOID',
-      publisher: { '@id': 'https://blckvoid.com/#organization' },
+      '@id': 'https://dala.ai/#website',
+      url: 'https://dala.ai',
+      name: 'Dala',
+      publisher: { '@id': 'https://dala.ai/#organization' },
     },
   ],
 }

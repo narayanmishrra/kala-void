@@ -1,5 +1,5 @@
 /* ============================================================
-   BLCK VOID — globals.css
+   DALA — globals.css
    Design System Foundation
    ============================================================ */
 
@@ -56,7 +56,7 @@
   --tracking-nav-label: 0.35px;
   --tracking-heading-2xs: -0.48px;
   --tracking-heading-sm: -1.68px;
-  --tracking-heading: -1.68px;
+  --tracking-heading: -1.92px;
   --tracking-heading-lg: -3.12px;
   --tracking-display: -4.52px;
 
@@ -72,6 +72,7 @@
   --spacing-24: 24px;
   --spacing-30: 30px;
   --spacing-36: 36px;
+  --spacing-48: 48px;
   --spacing-60: 60px;
   --spacing-96: 96px;
   --spacing-120: 120px;
@@ -164,6 +165,15 @@ body {
   font-feature-settings: "ss01" on;
 }
 
+.type-heading-2xs {
+  font-family: var(--font-ppneuemontreal);
+  font-size: var(--text-heading-2xs);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: var(--tracking-heading-2xs);
+  font-feature-settings: "ss01" on;
+}
+
 .type-body {
   font-family: var(--font-ppneuemontreal);
   font-size: var(--text-body);
@@ -208,6 +218,14 @@ body {
   line-height: 1.5;
 }
 
+.type-body em,
+.type-heading em,
+.type-heading-lg em,
+.type-heading-sm em,
+.type-heading-xs em {
+  font-style: italic;
+}
+
 /* ============================================================
    LAYOUT UTILITIES
    ============================================================ */
@@ -232,64 +250,6 @@ body {
   .container-page {
     padding-left: var(--spacing-18);
     padding-right: var(--spacing-18);
-  }
-}
-
-/* ============================================================
-   MARQUEE ANIMATION
-   ============================================================ */
-
-@keyframes marquee-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-@keyframes marquee-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-.marquee-track--left {
-  animation: marquee-left 40s linear infinite;
-}
-
-.marquee-track--right {
-  animation: marquee-right 45s linear infinite;
-}
-
-.marquee-track:hover,
-.marquee-track:focus-within {
-  animation-play-state: paused;
-}
-
-/* ============================================================
-   SERVICES ORBIT
-   ============================================================ */
-
-@keyframes orbit-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.orbit-spin {
-  animation: orbit-rotate 90s linear infinite;
-  transform-origin: 250px 250px;
-}
-
-.orbit-spin-reverse {
-  animation: orbit-rotate 90s linear infinite reverse;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orbit-spin,
-  .orbit-spin-reverse {
-    animation: none;
   }
 }
 
@@ -355,6 +315,11 @@ body {
 
 .btn-ghost:hover {
   color: var(--color-bone-white);
+}
+
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--color-electric-iris);
+  outline-offset: 3px;
 }
 
 .tag-outline {
@@ -462,7 +427,40 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .marquee-track {
-    animation: none !important;
-  }
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+/* ============================================================
+   TEXT SELECTION
+   ============================================================ */
+
+::selection {
+  background-color: rgba(128, 82, 255, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: rgba(128, 82, 255, 0.3);
+  color: #ffffff;
 }
