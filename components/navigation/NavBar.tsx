@@ -1,167 +1,136 @@
-/* ============================================================
-   BLCK VOID — components/navigation/NavBar.tsx
-   ============================================================ */
+"use client"
 
-'use client'
-
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
-import { Logo } from '@/components/ui/Logo'
-import { navLinks } from '@/lib/tokens'
-import { mobileMenuOverlay, mobileMenuLink, mobileMenuContainer } from '@/lib/animations'
-import { cn } from '@/lib/cn'
+import { useState, useEffect } from "react"
 
 export function NavBar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => { document.body.style.overflow = '' }
-  }, [mobileOpen])
-
-  useEffect(() => {
-    const onEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMobileOpen(false)
-    }
-    if (mobileOpen) window.addEventListener('keydown', onEscape)
-    return () => window.removeEventListener('keydown', onEscape)
-  }, [mobileOpen])
-
   return (
-    <>
-      <header
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        )}
-        style={{
-          height: 72,
-          backgroundColor: scrolled ? 'rgba(0,0,0,0.82)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(14px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(14px)' : 'none',
-        }}
-      >
-        <nav
-          aria-label="Main navigation"
-          className="container-page flex items-center justify-between h-full"
-        >
-          <Logo />
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-[#000000e6] backdrop-blur-md" : "bg-transparent"
+      }`}
+      style={{ height: 72 }}
+    >
+      <div className="container-page h-full">
+        <div className="flex items-center justify-between h-full">
+          {/* Logo */}
+          <a href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-full bg-[#8052ff] flex items-center justify-center transition-transform group-hover:scale-105">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="8" cy="8" r="3" fill="white" />
+                <circle cx="4" cy="6" r="1.5" fill="white" />
+                <circle cx="12" cy="6" r="1.5" fill="white" />
+                <circle cx="6" cy="11" r="1.5" fill="white" />
+                <circle cx="10" cy="11" r="1.5" fill="white" />
+              </svg>
+            </div>
+            <span className="type-nav text-[#ffffff]">DALA</span>
+          </a>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-[30px]">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    'type-nav relative',
-                    isActive ? 'text-white' : 'text-[#9a9a9a] hover:text-white',
-                  )}
-                  aria-current={isActive ? 'page' : undefined}
-                  style={{ transition: 'color 200ms ease' }}
-                >
-                  {link.label}
-                  <span
-                    className="absolute bottom-[-4px] left-0 h-[1px] bg-[#8052ff] origin-left scale-x-0 hover:scale-x-100 transition-transform duration-200"
-                    style={{ width: '100%' }}
-                  />
-                </Link>
-              )
-            })}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="btn-ghost type-nav">
+              Features
+            </a>
+            <a href="#team" className="btn-ghost type-nav">
+              Team
+            </a>
+            <a href="#investors" className="btn-ghost type-nav">
+              Investors
+            </a>
+            <a
+              href="https://askdala.typeform.com/to/lSujgyr8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
+              Request Access
+            </a>
           </div>
 
-          {/* Desktop CTA */}
-          <Link
-            href="/contact"
-            className="btn-primary hidden md:inline-flex"
-          >
-            Get Results
-          </Link>
-
-          {/* Mobile menu trigger */}
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden flex items-center justify-center w-10 h-10 text-white"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={mobileOpen}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            <Menu size={24} strokeWidth={1.5} />
+            <span
+              className={`w-6 h-0.5 bg-[#ffffff] transition-all duration-300 ${
+                isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
+              }`}
+            />
+            <span
+              className={`w-6 h-0.5 bg-[#ffffff] transition-all duration-300 ${
+                isMobileMenuOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`w-6 h-0.5 bg-[#ffffff] transition-all duration-300 ${
+                isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+              }`}
+            />
           </button>
-        </nav>
-      </header>
+        </div>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            className="fixed inset-0 z-[60] bg-black flex flex-col"
-            variants={mobileMenuOverlay}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            {/* Top bar */}
-            <div className="flex items-center justify-between px-6 h-16">
-              <Logo size="sm" />
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-center w-10 h-10 text-white"
-                aria-label="Close navigation menu"
-              >
-                <X size={24} strokeWidth={1.5} />
-              </button>
-            </div>
-
-            {/* Links */}
-            <motion.div
-              className="flex-1 flex flex-col justify-center px-6 gap-[18px]"
-              variants={mobileMenuContainer}
-              initial="hidden"
-              animate="visible"
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden absolute top-full left-0 right-0 bg-[#000000] border-t border-[#ffffff08] transition-all duration-300 ${
+            isMobileMenuOpen
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 -translate-y-4 pointer-events-none"
+          }`}
+        >
+          <div className="container-page py-6 flex flex-col gap-4">
+            <a
+              href="#features"
+              className="btn-ghost type-nav py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              {navLinks.map((link) => (
-                <motion.div key={link.href} variants={mobileMenuLink}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block font-[family-name:var(--font-ppneuemontreal)] text-[48px] font-normal leading-[0.95] tracking-[-1.5px] text-white hover:text-[#8052ff] transition-colors duration-200"
-                    style={{ fontFamily: 'var(--font-ppneuemontreal)' }}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Mobile CTA */}
-            <div className="px-6 pb-8">
-              <Link
-                href="/contact"
-                onClick={() => setMobileOpen(false)}
-                className="btn-primary w-full text-center"
-              >
-                Get Results
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+              Features
+            </a>
+            <a
+              href="#team"
+              className="btn-ghost type-nav py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Team
+            </a>
+            <a
+              href="#investors"
+              className="btn-ghost type-nav py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Investors
+            </a>
+            <a
+              href="https://askdala.typeform.com/to/lSujgyr8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary w-full text-center mt-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Request Access
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
   )
 }

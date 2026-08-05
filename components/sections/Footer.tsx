@@ -1,93 +1,59 @@
-/* ============================================================
-   BLCK VOID — components/sections/Footer.tsx
-   ============================================================ */
-
-import Link from 'next/link'
-import { Logo } from '@/components/ui/Logo'
-import { navLinks, services } from '@/lib/tokens'
-import { Link2, Globe, Mail, MessageCircle } from 'lucide-react'
+"use client"
 
 export function Footer() {
+  const currentYear = new Date().getFullYear()
+
   return (
-    <footer
-      style={{
-        backgroundColor: '#000000',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-        paddingTop: 60,
-        paddingBottom: 60,
-      }}
-    >
+    <footer className="py-[60px] bg-[#000000] border-t border-[#ffffff08]">
       <div className="container-page">
-        {/* Top row */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <Logo size="sm" />
-
-          <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="type-nav text-[#9a9a9a] hover:text-white transition-colors duration-200"
-                style={{ fontSize: 14, fontWeight: 400 }}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#8052ff] flex items-center justify-center">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Social links */}
-          <div className="flex items-center gap-4">
-            <a href="#" className="text-[#9a9a9a] hover:text-white transition-colors duration-200" aria-label="LinkedIn" rel="noopener noreferrer">
-              <Link2 size={20} strokeWidth={1.5} />
-            </a>
-            <a href="#" className="text-[#9a9a9a] hover:text-white transition-colors duration-200" aria-label="Instagram" rel="noopener noreferrer">
-              <MessageCircle size={20} strokeWidth={1.5} />
-            </a>
-            <a href="#" className="text-[#9a9a9a] hover:text-white transition-colors duration-200" aria-label="Behance" rel="noopener noreferrer">
-              <Globe size={20} strokeWidth={1.5} />
-            </a>
-            <a href="#" className="text-[#9a9a9a] hover:text-white transition-colors duration-200" aria-label="X (Twitter)" rel="noopener noreferrer">
-              <Mail size={20} strokeWidth={1.5} />
-            </a>
+                <circle cx="8" cy="8" r="3" fill="white" />
+                <circle cx="4" cy="6" r="1.5" fill="white" />
+                <circle cx="12" cy="6" r="1.5" fill="white" />
+                <circle cx="6" cy="11" r="1.5" fill="white" />
+                <circle cx="10" cy="11" r="1.5" fill="white" />
+              </svg>
+            </div>
+            <span className="type-nav text-[#ffffff]">DALA</span>
           </div>
-        </div>
 
-        {/* Middle row: Services */}
-        <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-          {services.map((service) => (
-            <Link
-              key={service.id}
-              href="/services"
-              className="font-[family-name:var(--font-ppneuemontreal)] text-[12px] font-normal text-[#9a9a9a] hover:text-[#8052ff] transition-colors duration-200"
+          <div className="flex items-center gap-6">
+            <a
+              href="https://twitter.com/askdala"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost type-nav"
             >
-              {service.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Bottom row */}
-        <div
-          className="mt-12 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
-        >
-          <span className="font-[family-name:var(--font-ppneuemontreal)] text-[12px] text-[#9a9a9a]">
-            © {new Date().getFullYear()} BLCK VOID. All rights reserved.
-          </span>
-          <div className="flex items-center gap-4">
-            <Link href="#" className="font-[family-name:var(--font-ppneuemontreal)] text-[12px] text-[#9a9a9a] hover:text-white transition-colors duration-200">
-              Privacy Policy
-            </Link>
-            <span className="text-[rgba(255,255,255,0.2)]">·</span>
-            <Link href="#" className="font-[family-name:var(--font-ppneuemontreal)] text-[12px] text-[#9a9a9a] hover:text-white transition-colors duration-200">
-              Terms of Service
-            </Link>
+              Twitter
+            </a>
+            <a
+              href="https://linkedin.com/company/dala-ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost type-nav"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="mailto:hello@dala.ai"
+              className="btn-ghost type-nav"
+            >
+              Contact
+            </a>
           </div>
-          <span
-            className="font-[family-name:var(--font-ppneuemontreal)] text-[12px] italic"
-            style={{ color: 'rgba(255,255,255,0.3)' }}
-          >
-            Built in the void. Delivered into the light.
-          </span>
+
+          <p className="type-caption text-[#9a9a9a]">
+            © {currentYear} Dala. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
