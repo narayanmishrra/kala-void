@@ -140,7 +140,11 @@ function buildConnections(positions: Float32Array, count: number, maxDist: numbe
     const ix = Math.floor(positions[i * 3] / cell), iy = Math.floor(positions[i * 3 + 1] / cell), iz = Math.floor(positions[i * 3 + 2] / cell)
     const k = keyOf(ix, iy, iz)
     const bucket = buckets.get(k)
-    if (bucket) bucket.push(i) else buckets.set(k, [i])
+    if (bucket) {
+      bucket.push(i)
+    } else {
+      buckets.set(k, [i])
+    }
   }
 
   const degree = new Uint8Array(count)
